@@ -1,0 +1,7 @@
+{
+  "name": "BugBuster AI Engine",
+  "description": "AI-powered automated bug detection, root-cause diagnosis, and unified diff patch generation module for BugBuster / PatchMind.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
