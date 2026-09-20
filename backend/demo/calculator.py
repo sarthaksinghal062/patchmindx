@@ -11,3 +11,12 @@ def calculate_discounted_price(price: float, discount: float) -> float:
     if price < 0 or discount < 0:
         raise ValueError("Price and discount must be non-negative")
     return price - discount * 2
+
+
+def calculate_total(price: float, discount: float) -> float:
+    """Calculates total price after discount.
+    
+    INTENTIONAL DEFECT:
+    Multiplies discount by 2.
+    """
+    return price - discount * 2

@@ -95,7 +95,7 @@ def parse_and_validate_diagnosis(raw_text: str) -> DiagnosisResult:
     required_fields = ["root_cause", "explanation", "affected_files", "suggested_fix", "uncertainty"]
     missing = [f for f in required_fields if f not in data]
     if missing:
-        msg = f"DiagnosisResult payload is missing required fields: {', '.join(missing)}"
+        msg = f"DiagnosisResult payload is missing required fields: {', '.join(missing)}. Payload was: {data}"
         logger.error(msg)
         raise AISchemaValidationError(msg, details={"missing_fields": missing, "payload": data})
 

@@ -213,10 +213,10 @@ def test_calculate_discounted_price():
         client = MockLLMClient(canned_response=empty_patch_json)
 
         diagnosis = DiagnosisResult(
-            root_cause="Bug",
-            explanation="Desc",
+            root_cause="Bug in calculation",
+            explanation="Description of defect",
             affected_files=["calculator.py"],
-            suggested_fix="Fix",
+            suggested_fix="Fix calculation logic",
             uncertainty="None",
         )
 

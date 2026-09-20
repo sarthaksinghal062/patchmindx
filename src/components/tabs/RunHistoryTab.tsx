@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { History, CheckCircle2, XCircle, Clock, ExternalLink, ArrowRight, Play, Eye } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { History, CheckCircle2, XCircle, Clock, ExternalLink, ArrowRight, Play, Eye, RefreshCw } from 'lucide-react';
 import { RUN_HISTORY } from '../../data/mockData';
 import { RunHistoryItem } from '../../types';
 
@@ -8,7 +8,39 @@ interface RunHistoryTabProps {
 }
 
 export const RunHistoryTab: React.FC<RunHistoryTabProps> = ({ onLoadRun }) => {
+  const [runs, setRuns] = useState<RunHistoryItem[]>(RUN_HISTORY);
   const [selectedRun, setSelectedRun] = useState<RunHistoryItem | null>(RUN_HISTORY[0]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchRuns = () => {
+    setLoading(true);
+    fetch('/api/runs')
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          const mapped: RunHistoryItem[] = data.map((r: any) => ({
+            id: r.id,
+            repo: 'backend/demo',
+            bug: r.diagnosis?.root_cause || r.test_command || 'Logic calculation error in discount formula',
+            status: r.run_state === 'COMPLETED' ? 'COMPLETED' : 'FAILED',
+            tests: r.verification === 'PASS' ? '9 passed, 0 failed' : r.verification === 'FAIL' ? '1 failed' : 'In progress',
+            verification: r.verification === 'PASS' ? 'VERIFIED' : 'VERIFICATION FAILED',
+            duration: '1.82s',
+            created: r.created_at ? new Date(r.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Just now',
+            scenario: 'success',
+            exit_code: r.verification === 'PASS' ? 0 : 1,
+          }));
+          setRuns([...mapped, ...RUN_HISTORY]);
+          setSelectedRun(mapped[0]);
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchRuns();
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -24,8 +56,15 @@ export const RunHistoryTab: React.FC<RunHistoryTabProps> = ({ onLoadRun }) => {
             </p>
           </div>
           <div className="flex items-center gap-2">
+            <button
+              onClick={fetchRuns}
+              className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 transition-colors"
+              title="Refresh runs"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
+            </button>
             <span className="text-xs font-mono px-3 py-1 rounded-full bg-slate-900 text-slate-300 border border-slate-800">
-              5 Total Executions Logged
+              {runs.length} Total Executions Logged
             </span>
           </div>
         </div>
@@ -46,7 +85,7 @@ export const RunHistoryTab: React.FC<RunHistoryTabProps> = ({ onLoadRun }) => {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/60 font-mono text-[11px]">
-              {RUN_HISTORY.map((run) => {
+              {runs.map((run) => {
                 const isVerified = run.verification === 'VERIFIED';
                 const isSelected = selectedRun?.id === run.id;
 

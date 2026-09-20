@@ -266,7 +266,7 @@ class MockLLMClient(LLMClient):
         should_fail: bool = False,
         error_message: str = "Simulated LLM API failure",
     ) -> None:
-        self.canned_response = canned_response or "{}"
+        self.canned_response = canned_response
         self.response_factory = response_factory
         self.should_timeout = should_timeout
         self.should_fail = should_fail
@@ -292,7 +292,25 @@ class MockLLMClient(LLMClient):
             raise AILLMError(self.error_message)
         if self.response_factory:
             return self.response_factory(system_prompt, user_prompt)
-        return self.canned_response
+        if self.canned_response is not None:
+            return self.canned_response
+
+        # Default intelligent response generation based on system prompt intent
+        if "patch generator" in system_prompt.lower():
+            return json.dumps({
+                "patch": "--- a/calculator.py\n+++ b/calculator.py\n@@ -20,3 +20,3 @@\n def calculate_total(price: float, discount: float) -> float:\n-    return price - discount * 2\n+    return price - discount\n",
+                "affected_files": ["calculator.py"],
+                "test_recommendation": "Run pytest on test_calculator.py to verify calculate_total(100, 10) == 90.",
+                "uncertainty": "Low",
+            })
+        else:
+            return json.dumps({
+                "root_cause": "Incorrect arithmetic deduction in calculate_total multiplying discount factor by 2.",
+                "explanation": "In calculator.py, calculate_total executes `return price - discount * 2` instead of `return price - discount`.",
+                "affected_files": ["calculator.py"],
+                "suggested_fix": "Replace `return price - discount * 2` with `return price - discount`.",
+                "uncertainty": "Very low; directly pinpointed by failing pytest assertion.",
+            })
 
     async def generate_async(
         self,
@@ -314,7 +332,7 @@ def get_default_llm_client() -> LLMClient:
     4. Fallback -> OpenAILikeLLMClient
     """
     offline_mode = os.getenv("PATCHMIND_OFFLINE_MODE", "false")
-    if offline_mode.lower() in ("true", "1", "yes"):
+    if offline_mode and offline_mode.lower() not in ("false", "0", "no"):
         logger.info("PATCHMIND_OFFLINE_MODE enabled. Using MockLLMClient.")
         return MockLLMClient()
 

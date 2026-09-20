@@ -82,6 +82,7 @@ interface PipelineControlProps {
   stageStates: Record<string, StageState>;
   isSimulating: boolean;
   onSimulate: () => void;
+  onLiveRun?: () => void;
   scenario: SimulationScenario;
   onScenarioChange: (scenario: SimulationScenario) => void;
 }
@@ -91,6 +92,7 @@ export const PipelineControl: React.FC<PipelineControlProps> = ({
   stageStates,
   isSimulating,
   onSimulate,
+  onLiveRun,
   scenario,
   onScenarioChange,
 }) => {
@@ -175,15 +177,42 @@ export const PipelineControl: React.FC<PipelineControlProps> = ({
             </button>
           </div>
 
+          {/* Live Backend Run Button */}
+          {onLiveRun && (
+            <button
+              id="btn-run-live-backend"
+              onClick={onLiveRun}
+              disabled={isSimulating}
+              className={`px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 transition-all border ${
+                isSimulating
+                  ? 'bg-slate-800 text-slate-400 border-slate-700 cursor-not-allowed opacity-80'
+                  : 'bg-emerald-500 hover:bg-emerald-400 text-slate-950 border-emerald-400 shadow-md shadow-emerald-500/20 active:scale-95'
+              }`}
+              title="Trigger real FastAPI backend run with database persistence and sandbox verification"
+            >
+              {isSimulating ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 text-slate-950 animate-spin" />
+                  <span>Processing...</span>
+                </>
+              ) : (
+                <>
+                  <Play className="w-3.5 h-3.5 fill-slate-950 text-slate-950" />
+                  <span>▶ Run Live Backend (FastAPI)</span>
+                </>
+              )}
+            </button>
+          )}
+
           {/* Primary Simulate Pipeline Button */}
           <button
             id="btn-re-run-demo"
             onClick={onSimulate}
             disabled={isSimulating}
-            className={`px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 transition-all border ${
+            className={`px-3.5 py-2 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all border ${
               isSimulating
                 ? 'bg-slate-800 text-slate-400 border-slate-700 cursor-not-allowed opacity-80'
-                : 'bg-amber-500 hover:bg-amber-400 text-slate-950 border-amber-400 shadow-md shadow-amber-500/20 active:scale-95'
+                : 'bg-slate-900 hover:bg-slate-800 text-slate-200 border-slate-700 hover:border-slate-600 active:scale-95'
             }`}
           >
             {isSimulating ? (
@@ -193,13 +222,13 @@ export const PipelineControl: React.FC<PipelineControlProps> = ({
               </>
             ) : isCompleted ? (
               <>
-                <RotateCcw className="w-3.5 h-3.5 text-slate-950" />
-                <span>Run Simulation Again</span>
+                <RotateCcw className="w-3.5 h-3.5 text-amber-400" />
+                <span>Re-Simulate</span>
               </>
             ) : (
               <>
-                <Play className="w-3.5 h-3.5 fill-slate-950 text-slate-950" />
-                <span>▶ Simulate Pipeline</span>
+                <RotateCcw className="w-3.5 h-3.5 text-amber-400" />
+                <span>⚡ Simulate</span>
               </>
             )}
           </button>
