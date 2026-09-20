@@ -1,4 +1,4 @@
-"""Bug Analyzer module for BugBuster AI Engine.
+"""Bug Analyzer module for PatchMind AI Engine.
 
 Inspects failing pytest output, relevant source code, and test cases to infer
 the software defect root cause, affected files, and suggested fix strategy.
@@ -15,7 +15,7 @@ from .prompt_templates import build_diagnosis_prompt
 from .response_parser import parse_and_validate_diagnosis
 from .schemas import DiagnosisResult
 
-logger = logging.getLogger("bugbuster.ai.analyzer")
+logger = logging.getLogger("patchmind.ai.analyzer")
 
 
 def analyze_failure(

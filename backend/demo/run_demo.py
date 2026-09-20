@@ -1,4 +1,4 @@
-"""Interactive end-to-end demo script for BugBuster AI Engine (Member 3).
+"""Interactive end-to-end demo script for PatchMind AI Engine.
 
 Demonstrates the flow:
 1. Pytest failure trace captured
@@ -73,10 +73,9 @@ MOCK_PATCH_JSON = json.dumps({
 
 def run_pipeline_demo(use_live_llm: bool = False) -> None:
     print("=" * 70)
-    print("      BUGBUSTER / PATCHMIND - AI ENGINE DEMONSTRATION")
-    print("      Team Member 3 (AI Engine Lead)")
+    print("           PATCHMIND - AI ENGINE DEMONSTRATION")
     print("=" * 70)
-    print("\n[STAGE 1: FAILURE INGESTION (Member 2 -> Member 3)]")
+    print("\n[STAGE 1: FAILURE INGESTION (API -> AI Engine)]")
     print("Captured Pytest Output:\n" + "-" * 40)
     print(DEMO_PYTEST_OUTPUT.strip())
     print("-" * 40)
@@ -127,17 +126,17 @@ def run_pipeline_demo(use_live_llm: bool = False) -> None:
     print("=" * 40)
 
     # Stage 4: Critical Hand-off Notice
-    print("\n[STAGE 4: VERIFICATION HAND-OFF (Member 3 -> Member 2 -> Member 4)]")
+    print("\n[STAGE 4: VERIFICATION HAND-OFF (AI Engine -> API -> Docker Sandbox)]")
     print("STATUS: VERIFICATION PENDING")
     print("NOTICE: The AI module does NOT verify the patch or execute tests.")
-    print("        This patch payload is handed back to Member 2 (FastAPI),")
-    print("        which dispatches to Member 4's isolated Docker sandbox.")
+    print("        This patch payload is handed back to the API layer,")
+    print("        which dispatches to the isolated Docker sandbox.")
     print("        Only Docker + pytest can assert PASS or FAIL.")
     print("=" * 70)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="BugBuster AI Engine Demo")
+    parser = argparse.ArgumentParser(description="PatchMind AI Engine Demo")
     parser.add_argument("--live", action="store_true", help="Use live configured LLM API instead of mock")
     args = parser.parse_args()
     run_pipeline_demo(use_live_llm=args.live)

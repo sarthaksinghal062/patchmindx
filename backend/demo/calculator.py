@@ -1,4 +1,4 @@
-"""Demo module with an intentional logic bug for BugBuster verification."""
+"""Demo module with an intentional logic bug for PatchMind verification."""
 
 
 def calculate_discounted_price(price: float, discount: float) -> float:

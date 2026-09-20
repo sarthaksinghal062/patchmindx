@@ -1,9 +1,9 @@
-"""Pydantic schemas for BugBuster AI Engine.
+"""Pydantic schemas for PatchMind AI Engine.
 
 Architecture Rule:
 The AI proposes a diagnosis and patch.
 The AI must NEVER claim that a patch is verified or tested.
-Only Team Member 4's Docker sandbox execution layer can return PASS or FAIL.
+Only the Docker sandbox execution layer can return PASS or FAIL.
 Verification fields ('verified', 'status', 'is_passing') are strictly forbidden here.
 """
 
@@ -52,7 +52,7 @@ except ImportError:
 
 
 class DiagnosisResult(BaseModel):
-    """Structured diagnosis of a failing test run produced by BugBuster AI."""
+    """Structured diagnosis of a failing test run produced by PatchMind AI."""
 
     root_cause: str = Field(
         ...,
@@ -86,7 +86,7 @@ class DiagnosisResult(BaseModel):
 
 
 class PatchResult(BaseModel):
-    """Structured patch proposal produced by BugBuster AI.
+    """Structured patch proposal produced by PatchMind AI.
     
     CRITICAL: Contains ONLY candidate patch diff and test suggestions.
     Does NOT contain verification state or execution results.

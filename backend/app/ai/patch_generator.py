@@ -1,4 +1,4 @@
-"""Patch Generator module for BugBuster AI Engine.
+"""Patch Generator module for PatchMind AI Engine.
 
 Generates surgical, minimal unified diffs based on the diagnosed root cause,
 failing test trace, and source context.
@@ -15,7 +15,7 @@ from .prompt_templates import build_patch_prompt
 from .response_parser import parse_and_validate_patch
 from .schemas import DiagnosisResult, PatchResult
 
-logger = logging.getLogger("bugbuster.ai.patch_generator")
+logger = logging.getLogger("patchmind.ai.patch_generator")
 
 
 def generate_patch(

@@ -1,4 +1,4 @@
-"""Robust response parsing for BugBuster AI outputs.
+"""Robust response parsing for PatchMind AI outputs.
 
 Ensures that model responses are safely extracted, strictly validated against
 Pydantic schemas, and stripped of extraneous markdown fences without masking errors.
@@ -13,13 +13,13 @@ from typing import Any, Type, TypeVar
 
 from .schemas import DiagnosisResult, PatchResult, validate_unified_diff
 
-logger = logging.getLogger("bugbuster.ai.response_parser")
+logger = logging.getLogger("patchmind.ai.response_parser")
 
 T = TypeVar("T", DiagnosisResult, PatchResult)
 
 
 class AIEngineError(Exception):
-    """Base exception for all BugBuster AI engine operations."""
+    """Base exception for all PatchMind AI engine operations."""
     def __init__(self, message: str, details: dict[str, Any] | None = None) -> None:
         super().__init__(message)
         self.message = message

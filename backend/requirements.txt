@@ -1,4 +1,4 @@
-# BugBuster AI Engine Dependencies (Member 3)
+# PatchMind AI Engine Dependencies
 fastapi>=0.110.0
 pydantic>=2.5.0
 pytest>=8.0.0

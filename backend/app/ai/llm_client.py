@@ -1,4 +1,4 @@
-"""LLM Client provider abstraction for BugBuster AI Engine.
+"""LLM Client provider abstraction for PatchMind AI Engine.
 
 Architecture Goals:
 - Abstract interface (LLMClient) so underlying providers (Gemini, OpenAI, Anthropic,
@@ -23,7 +23,7 @@ from typing import Any, Callable, Dict, Optional
 
 from .response_parser import AILLMError, AITimeoutError
 
-logger = logging.getLogger("bugbuster.ai.llm_client")
+logger = logging.getLogger("patchmind.ai.llm_client")
 
 
 class LLMClient(abc.ABC):
@@ -308,13 +308,14 @@ def get_default_llm_client() -> LLMClient:
     """Factory creating the configured LLM client from environment settings.
     
     Priority:
-    1. If BUGBUSTER_OFFLINE_MODE is set -> MockLLMClient
+    1. If PATCHMIND_OFFLINE_MODE is set -> MockLLMClient
     2. If OPENAI_API_KEY or LLM_API_KEY is set -> OpenAILikeLLMClient
     3. If GEMINI_API_KEY is set -> GeminiLLMClient
     4. Fallback -> OpenAILikeLLMClient
     """
-    if os.getenv("BUGBUSTER_OFFLINE_MODE", "false").lower() in ("true", "1", "yes"):
-        logger.info("BUGBUSTER_OFFLINE_MODE enabled. Using MockLLMClient.")
+    offline_mode = os.getenv("PATCHMIND_OFFLINE_MODE", "false")
+    if offline_mode.lower() in ("true", "1", "yes"):
+        logger.info("PATCHMIND_OFFLINE_MODE enabled. Using MockLLMClient.")
         return MockLLMClient()
 
     if os.getenv("OPENAI_API_KEY") or os.getenv("LLM_API_KEY"):

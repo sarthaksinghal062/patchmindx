@@ -1,12 +1,10 @@
-"""BugBuster AI Engine Package.
-
-Subsystem owned by Team Member 3 (AI Engine Lead).
+"""PatchMind AI Engine Package.
 
 Architectural Contract:
 - The AI module diagnoses defects and proposes unified diff patches.
 - The AI module NEVER claims that a patch is verified or has passed.
-- Execution and verification belong strictly to Team Member 4's Docker Sandbox.
-- Orchestration and API endpoints belong to Team Member 2's FastAPI layer.
+- Execution and verification belong strictly to the Docker Sandbox.
+- Orchestration and API endpoints belong to the FastAPI layer.
 """
 
 from .bug_analyzer import analyze_failure, analyze_failure_async

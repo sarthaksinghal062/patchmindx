@@ -1,4 +1,4 @@
-"""Comprehensive Unit Test Suite for BugBuster AI Engine (Team Member 3).
+"""Comprehensive Unit Test Suite for PatchMind AI Engine.
 
 Validates all 12 core requirements (A through L):
 A. Correct diagnosis response
@@ -45,7 +45,7 @@ from app.ai import (
 from app.ai.prompt_templates import build_diagnosis_prompt, build_patch_prompt
 
 
-class TestBugBusterAIEngine(unittest.TestCase):
+class TestPatchMindAIEngine(unittest.TestCase):
     """Test suite for AI bug analyzer, patch generator, and parsing contracts."""
 
     def setUp(self) -> None:

@@ -1,4 +1,4 @@
-"""Prompt templates and security boundaries for BugBuster AI Engine.
+"""Prompt templates and security boundaries for PatchMind AI Engine.
 
 Security Policy:
 - All source code, test code, pytest outputs, and repository metadata are treated as
@@ -40,7 +40,7 @@ def truncate_context(content: str, max_chars: int, label: str) -> str:
 # Diagnosis Prompts
 # ---------------------------------------------------------------------------
 
-DIAGNOSIS_SYSTEM_PROMPT = """You are BugBuster's AI Static Bug Analyzer.
+DIAGNOSIS_SYSTEM_PROMPT = """You are PatchMind's AI Static Bug Analyzer.
 Your sole job is to diagnose software defects from test failure logs and relevant source code.
 
 SECURITY DIRECTIVES (HIGHEST PRIORITY):
@@ -112,7 +112,7 @@ def build_diagnosis_prompt(
 # Patch Generation Prompts
 # ---------------------------------------------------------------------------
 
-PATCH_SYSTEM_PROMPT = """You are BugBuster's AI Patch Generator.
+PATCH_SYSTEM_PROMPT = """You are PatchMind's AI Patch Generator.
 Your sole job is to produce a minimal unified diff patch for an identified software defect.
 
 SECURITY DIRECTIVES (HIGHEST PRIORITY):
